@@ -24,17 +24,11 @@ var sum = function(array) {
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
   if (array.length === 0) return 0;
-  var sum = 0;
-  //if (array.length === 1) return array[0];
-  //for (var i = 0; i < array.length; i++) {
-    if (!Array.isArray(array[0])) {
-      sum += array[0] + arraySum(array.slice(1));
-    } else {
-      sum += arraySum(array[0]) + arraySum(array.slice(1));
-    }
-    return sum
-    //if (array.length === 2) return array[0] + array[i];
-  //}
+  if (!Array.isArray(array[0])) {
+    return array[0] + arraySum(array.slice(1));
+  } else {
+    return arraySum(array[0]) + arraySum(array.slice(1));
+  }
 };
 
 // 4. Check if a number is even.
@@ -226,6 +220,15 @@ var countKeysInObj = function(obj, key) {
 // countValuesInObj(obj, 'r') // 2
 // countValuesInObj(obj, 'e') // 1
 var countValuesInObj = function(obj, value) {
+  var count = 0;
+  for (var property in obj) {
+    if (obj[property] === value) {
+      count++;
+    } else if (typeof obj[property] === 'object' && obj[property] !== null) {
+      count += countValuesInObj(obj[property], value);
+    }
+  }
+  return count;
 };
 
 // 24. Find all keys in an object (and nested objects) by a provided name and rename
